@@ -13,6 +13,8 @@ public class Controller2D : MonoBehaviour {
     public int horizontalRayCount = 4;
     public int verticalRayCount = 4;
 
+    float maxSlopeAngle = 70f;
+
     float horizontalRaySpacing;
     float verticalRaySpacing;
 
@@ -51,6 +53,13 @@ public class Controller2D : MonoBehaviour {
             Debug.DrawRay(rayOrigin, Vector2.up * directionX * rayLength, Color.red);
 
             if (hit) {
+
+                float slopeAngle = Vector2.Angle(hit.normal, Vector.up);
+
+                if (i== 0 && slopeAngle <= maxSlopeAngle){
+                    ClimbSlope(ref velocity, slopeAngle);
+                }
+
                 velocity.x = (hit.distance - skinWidth) * directionX;
                 rayLength = hit.distance;
             }
@@ -75,6 +84,13 @@ public class Controller2D : MonoBehaviour {
         }
     }
 
+    void ClimbSlope(ref Vector 3velocity, float slopeAngle)
+    {
+        float moveDistance = Mathf.Abs(velocity.x);
+        velocity.y = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
+        velocity.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(velocity.x);
+        HorizontalCollisions
+    }
 
     void UpdateRaycastOrigins() {
         Bounds bounds = collider.bounds;

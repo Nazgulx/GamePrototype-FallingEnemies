@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +10,13 @@ public class Player : MonoBehaviour {
 
     public float jumpHeight = 3;
     public float timeToJumpApex = .4f;
+    float accelerationTimeAirborne = 0.2f;
+    float accelerationTimeGrounded = 0.1f;
     float moveSpeed = 6f;
     float gravity;
     Vector3 velocity;
     float jumpVelocity;
+    float velocityXSmoothing;
 
     Controller2D controller;
     
@@ -37,7 +41,8 @@ public class Player : MonoBehaviour {
             velocity.y = jumpVelocity;
         }
 
-        velocity.x = input.x * moveSpeed;
+        float targetVelocity = input.x * moveSpeed;
+        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocity, ref velocityXSmoothing, (controller.collisions.below)?accelerationTimeGrounded:accelerationTimeAirborne);
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }

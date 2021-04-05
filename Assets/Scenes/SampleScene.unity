@@ -859,6 +859,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f91b6f750e7c1041bb3501f9df4e591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpHeight: 3
+  timeToJumpApex: 0.3
 --- !u!1 &2119591208
 GameObject:
   m_ObjectHideFlags: 0
